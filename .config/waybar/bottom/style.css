@@ -1,0 +1,64 @@
+@import url("../style.css"); 
+
+/* ===================================================== */
+/* BOTTOM BAR SPECIFIC                                    */
+/* ===================================================== */
+
+#custom-window {
+  margin-left: 8px;
+}
+
+#custom-sysinfo {
+}
+
+#custom-theme {
+  opacity: 0.7;
+}
+
+#power-profiles-daemon.performance {
+  color: #f38ba8;
+}
+
+#power-profiles-daemon.balanced {
+  color: #cdd6f4;
+}
+
+#power-profiles-daemon.power-saver {
+  color: #a6e3a1;
+}
+
+#power-profiles-daemon {
+  margin-right: 10px;
+}
+
+#battery {
+  margin-right: 10px;
+}
+
+#battery.warning {
+  color: #f9e2af;
+}
+
+#battery.critical {
+  color: #f38ba8;
+}
+
+#battery.charging,
+#battery.plugged {
+  color: #a6e3a1;
+}
+
+#backlight {
+  margin-right: 10px;
+}
+
+#tray {
+}
+
+#tray > .passive {
+  opacity: 0.5;
+}
+
+#tray > .needs-attention {
+  -gtk-icon-effect: highlight;
+}

@@ -1,0 +1,11 @@
+[general]
+import = [
+    "~/.config/alacritty/themes/noctalia.toml"
+]
+[font]
+normal = { family = "Mononoki Nerd Font", style = "Regular" }
+bold = { family = "Mononoki Nerd Font", style = "Bold" }
+italic = { family = "Mononoki Nerd Font", style = "Italic" }
+bold_italic = { family = "mononoki", style = "Bold Italic" }
+
+size = 13.0

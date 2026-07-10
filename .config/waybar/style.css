@@ -1,0 +1,94 @@
+@import url("colors.css");
+
+/* ===================================================== */
+/* GLOBAL                                                */
+/* ===================================================== */
+
+* {
+  background-color: alpha(@background, 0.9);
+  color: @foreground;
+
+  border: none;
+  border-radius: 0;
+  border: 0px solid alpha(@foreground, 0.6);
+
+  min-height: 0;
+
+  font-family: 'Mononoki Nerd Font';
+  font-size: 18px;
+
+}
+
+/* ===================================================== */
+/* LAYOUT SPACING                                        */
+/* ===================================================== */
+
+.modules-left {
+  margin-left: 8px;
+}
+
+.modules-right {
+  margin-right: 10px;
+}
+
+
+/* ===================================================== */
+/* RIGHT SIDE MODULES                                     */
+/* ===================================================== */
+
+#pulseaudio {
+  margin-left: 1px;
+  margin-right: 9px;
+}
+
+#clock {
+  margin-left: -10px;
+}
+
+#custom-uptime {
+  margin-right: 10px;
+}
+
+/* ===================================================== */
+/* LEFT SIDE MODULES                                      */
+/* ===================================================== */
+
+#workspaces button {
+  all: initial;
+  transition: all 90ms ease-in-out;
+  padding: 0 6px;
+  margin-left: 0px;
+  min-width: 2px;
+}
+
+#workspaces button.active {
+  border-top: 1px solid @foreground;
+  margin-bottom: 2px;
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%   { text-shadow: 0 0 2px alpha(@foreground, 0.3); }
+  50%  { text-shadow: 0 0 8px alpha(@foreground, 0.9); }
+  100% { text-shadow: 0 0 2px alpha(@foreground, 0.3); }
+}
+
+#workspaces button.empty {
+  opacity: 0.5;
+}
+
+
+#custom-arrow {
+  margin-left: 6px;
+  margin-right: 10px;
+}
+
+#custom-sep {
+  margin: 0 4px;
+}
+
+#custom-secbar {
+  margin-left: 6px;
+  margin-right: 12px;
+}
+

@@ -1,0 +1,96 @@
+{
+  // ======================================================
+  // BAR SETTINGS
+  // ======================================================
+  "reload_style_on_change": true,
+  "layer": "top",
+  "position": "top",
+  "spacing": 0,
+  "height": 37,
+
+
+  // ======================================================
+  // MODULE PLACEMENT
+  // ======================================================
+  "modules-left": [
+    "niri/workspaces"
+  ],
+
+  "modules-center": [],
+
+  "modules-right": [
+    "custom/secbar",
+    "custom/uptime",
+    "pulseaudio",
+    "clock"
+  ],
+
+  // ======================================================
+  // LEFT SIDE MODULES
+  // ======================================================
+
+  "custom/omarchy": {
+    "format": "",
+    "on-click": "rofi -show drun",
+    "on-click-right": "xdg-terminal-exec",
+    "tooltip": true,
+    "tooltip-format": "App Launcher\nSuper + Alt + Space"
+  },
+
+  "custom/sep": {
+    "format": "|",
+    "tooltip": false
+  },
+
+  "niri/workspaces": {
+    "format": "{icon}",
+    "format-icons": {
+        "1": "one",
+        "2": "two",
+        "3": "three",
+        "4": "four",
+        "5": "five"
+  }
+},
+
+  "custom/arrow": {
+    "format": "",
+    "tooltip": false
+  },
+
+  // ======================================================
+  // RIGHT SIDE MODULES
+  // ======================================================
+
+  "custom/secbar": {
+    "format": "[BTMBAR]",
+    "tooltip": true,
+    "tooltip-format": "Toggle bottom bar",
+    "on-click": "~/.config/waybar/secbar.sh",
+    "return-type": "json"
+  },
+
+  "custom/uptime": {
+    "exec": "awk '{d=int($1/86400); h=int(($1%86400)/3600); m=int(($1%3600)/60); if (d>0) printf \"[up %dd %dh]\", d, h; else printf \"[up %dh %dm]\", h, m}' /proc/uptime",
+    "interval": 60,
+    "tooltip": false
+  },
+
+  "pulseaudio": {
+    "format": "[vol {volume}%] ",
+    "format-muted": "muted ",
+    "tooltip-format": "Playing at {volume}%",
+    "scroll-step": 5,
+    "on-click": "alacritty -e wiremix",
+    "on-click-right": "pamixer -t",
+    "format-icons": {
+      "default": ["", "", ""]
+    }
+  },
+
+  "clock": {
+    "format": "[{:%I:%M %p}]",
+    "format-alt": "{:%e %B %A}",
+    "tooltip": false
+  }
+}

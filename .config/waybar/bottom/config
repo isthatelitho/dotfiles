@@ -1,0 +1,69 @@
+{
+  "layer": "top",
+  "position": "bottom",
+  "spacing": 10,
+  "height": 24,
+
+  "modules-left": [
+    "custom/window"
+  ],
+
+  "modules-center": [],
+
+  "modules-right": [
+    "battery",
+    "tray",
+    "power-profiles-daemon",
+    "backlight"
+  ],
+
+  "custom/window": {
+    "exec": "~/.config/waybar/window.sh",
+    "return-type": "json"
+  },
+
+  "custom/sysinfo": {
+    "exec": "~/.config/waybar/scripts/sysinfo.sh",
+    "interval": 5,
+    "tooltip": false
+  },
+
+  "custom/theme": {
+    "format": "[theme = solitude]",
+    "tooltip": false
+  },
+
+  "battery": {
+    "states": {
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{icon} {capacity}%",
+    "format-charging": "󰂄 {capacity}%",
+    "format-plugged": "󰂄 {capacity}%",
+    "format-icons": ["󰁻", "󰁽", "󰁿", "󰂁", "󰁹"],
+    "tooltip-format": "{time} remaining"
+  },
+
+  "power-profiles-daemon": {
+    "format": "{icon}",
+    "tooltip-format": "Power profile: {profile}\nClick to cycle",
+    "format-icons": {
+      "default": "󰾆 ",
+      "performance": "󰓅 ",
+      "balanced": "󰾅 ",
+      "power-saver": "󰾆 "
+    }
+  },
+
+  "backlight": {
+    "format": "{icon} {percent}%",
+    "format-icons": ["󰃞", "󰃟", "󰃠"],
+    "tooltip": true
+  },
+
+  "tray": {
+    "icon-size": 16,
+    "spacing": 8
+  }
+}
