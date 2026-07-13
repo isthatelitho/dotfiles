@@ -91,7 +91,7 @@ output "eDP-1" {
     mode "1920x1080"
 
     // You can use integer or fractional scale, for example use 1.5 for 150% scale.
-    scale 1.1
+    scale 1.3
 
     // Transform allows to rotate the output counter-clockwise, valid values are:
     // normal, 90, 180, 270, flipped, flipped-90, flipped-180 and flipped-270.
@@ -213,6 +213,7 @@ spawn-at-startup "niri-float-sticky"
 spawn-at-startup "waybar"
 spawn-at-startup "swaybg" "-o" "*" "-i" "Pictures/Wallpapers/shimeji_tile.png" "-m" "tile"
 spawn-at-startup "xwayland-satellite"
+spawn-at-startup "kded6"
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
@@ -304,6 +305,18 @@ window-rule {
 	match app-id="spotify"
 	opacity 0.9
 }
+
+window-rule {
+    match title="^(Open|Choose|Save)(.*)$"
+    match app-id="(xdg-desktop-portal)(.*)"
+    match app-id="filepicker"
+    match app-id="org.freedesktop.impl.portal.desktop.kde"
+    default-column-width { proportion 0.5; }
+    default-window-height { proportion 0.8; }
+    open-floating true
+    open-fullscreen false
+}
+
 // Example: block out two password managers from screen capture.
 // (This example rule is commented out with a "/-" in front.)
 /-window-rule {
@@ -339,10 +352,10 @@ binds {
 	Mod+N           { spawn-sh "/home/eli/.config/niri/scripts/random-wall.sh"; }
 	Mod+Shift+Z     { spawn "sh" "-c" "~/.config/niri/scripts/toggle-rotation.sh"; }
 	Mod+X           { spawn-sh "killall waybar && waybar &"; }
-	Mod+E           { spawn-sh "nautilus"; }
+	Mod+E           { spawn-sh "dolphin"; }
 	Mod+T	        { spawn-sh "kitty"; }
 	Mod+Alt+L       { spawn "swaylock"; }
-	Mod+Shift+Print { spawn-sh "/home/eli/.config/niri/scripts/screen-record.sh"; }
+	Mod+Alt+C { spawn-sh "/home/eli/.config/niri/scripts/screen-record.sh"; }
 	Mod+Shift+N     { spawn-sh "/home/eli/.config/niri/scripts/wallpaper-selector.sh"; }
 	Mod+Shift+V { spawn "sh" "-c" "rofi -modi clipboard:~/.config/rofi/cliphist-rofi-img -show clipboard -show-icons -config ~/.config/rofi/clipboard.rasi"; }
 	// Suggested binds for running programs: terminal, app launcher, screen locker.

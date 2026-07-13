@@ -14,6 +14,16 @@ function dl
 
 set -gx QT_QPA_PLATFORMTHEME qt6ct
 
+set -l ssh_env_file $HOME/.ssh/fish-ssh-agent-env
+
 if not set -q SSH_AUTH_SOCK
-    eval (ssh-agent -c)
+    if test -f $ssh_env_file
+        source $ssh_env_file > /dev/null
+    end
+end
+
+if not set -q SSH_AUTH_SOCK; or not kill -0 $SSH_AGENT_PID > /dev/null 2>&1
+    ssh-agent -c > $ssh_env_file
+    source $ssh_env_file > /dev/null
+    ssh-add ~/.ssh/id_ed25519 > /dev/null 2>&1
 end

@@ -11,22 +11,24 @@
   "modules-center": [],
 
   "modules-right": [
-    "battery",
     "tray",
+    "custom/uptime",
+    "battery",
     "power-profiles-daemon",
     "backlight"
   ],
+
+  "custom/uptime": {
+    "exec": "awk '{d=int($1/86400); h=int(($1%86400)/3600); m=int(($1%3600)/60); if (d>0) printf \"[up %dd %dh]\", d, h; else printf \"[up %dh %dm]\", h, m}' /proc/uptime",
+    "interval": 60,
+    "tooltip": false
+  },
 
   "custom/window": {
     "exec": "~/.config/waybar/window.sh",
     "return-type": "json"
   },
 
-  "custom/sysinfo": {
-    "exec": "~/.config/waybar/scripts/sysinfo.sh",
-    "interval": 5,
-    "tooltip": false
-  },
 
   "custom/theme": {
     "format": "[theme = solitude]",
@@ -38,10 +40,7 @@
       "warning": 30,
       "critical": 15
     },
-    "format": "{icon} {capacity}%",
-    "format-charging": "󰂄 {capacity}%",
-    "format-plugged": "󰂄 {capacity}%",
-    "format-icons": ["󰁻", "󰁽", "󰁿", "󰂁", "󰁹"],
+    "format": "[btr {capacity}%]",
     "tooltip-format": "{time} remaining"
   },
 
@@ -49,16 +48,15 @@
     "format": "{icon}",
     "tooltip-format": "Power profile: {profile}\nClick to cycle",
     "format-icons": {
-      "default": "󰾆 ",
-      "performance": "󰓅 ",
-      "balanced": "󰾅 ",
-      "power-saver": "󰾆 "
+      "default": "[pwr]",
+      "performance": "[per]",
+      "balanced": "[bal]",
+      "power-saver": "[ps]"
     }
   },
 
   "backlight": {
-    "format": "{icon} {percent}%",
-    "format-icons": ["󰃞", "󰃟", "󰃠"],
+    "format": "[bri {percent}%]",
     "tooltip": true
   },
 
