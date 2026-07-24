@@ -1,0 +1,74 @@
+@import "~/.cache/wal/colors-rofi-dark"
+
+configuration {
+    show-icons: true;
+    disable-history: false;
+}
+
+* {
+    font: "uzura_font 9";
+    background-color: transparent;
+    text-color: @foreground;
+    margin: 0px;
+    padding: 0px;
+    spacing: 0px;
+    border: 0px;
+    border-color: transparent;
+}
+
+window {
+    fullscreen: true;
+    background-color: #000000cc;
+    transparency: "real";
+}
+
+mainbox {
+    background-color: transparent;
+    children: [ listview ];
+    padding: 6% 5% 6% 5%;
+}
+
+inputbar {
+    enabled: false;
+}
+
+listview {
+    orientation: horizontal;
+    flow: horizontal;
+    columns: 6;
+    lines: 4;
+    spacing: 10px;
+    cycle: false;
+    scrollbar: false;
+    fixed-height: true;
+    background-color: transparent;
+}
+
+element {
+    orientation: vertical;
+    padding: 5px;
+    border-radius: 10px;
+    background-color: #1a1a1a40;
+}
+
+element normal {
+    background-color: #1a1a1a40;
+}
+
+element.selected {
+    background-color: #ffffff14;
+    border: 2px solid;
+    border-color: @foreground;
+    border-radius: 10px;
+}
+
+element-icon {
+    size: 150px 150px;
+    border-radius: 8px;
+    horizontal-align: 0.5;
+    vertical-align: 0.5;
+}
+
+element-text {
+    enabled: false;
+}
