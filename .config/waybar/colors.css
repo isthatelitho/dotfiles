@@ -1,2 +1,12 @@
-@define-color background #1a1a1a;
-@define-color foreground #e8dfd0;
+/* Catppuccin Mocha-ish palette used across waybar */
+@define-color base       #292d35;
+@define-color surface0   #2e3440;
+@define-color surface1   #3b4252;
+@define-color overlay0   #4c566a;
+
+@define-color text       #9cdef2;
+@define-color subtext    #78bec7;
+
+@define-color blue       #56b6c2;
+@define-color peach      #fab387;
+@define-color red        #e06c75;

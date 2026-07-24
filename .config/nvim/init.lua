@@ -6,10 +6,10 @@ vim.pack.add({
   'https://github.com/nvim-lua/plenary.nvim',
   'https://github.com/windwp/nvim-autopairs',
   'https://github.com/numToStr/Comment.nvim',
-  'https://github.com/vague2k/vague.nvim',
+  'https://github.com/d00h/nvim-rusticated',
 })
 
-vim.cmd("colorscheme vague")
+vim.cmd("colorscheme rusticated")
 -- basic settings
 vim.opt.termguicolors = true
 vim.opt.backupcopy = "yes"

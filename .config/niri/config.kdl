@@ -5,7 +5,7 @@ environment {
 }
 
 prefer-no-csd
-include "animations/glide.kdl"
+include "animations/tv_crt.kdl"
 input {
     keyboard {
 
@@ -43,7 +43,7 @@ input {
         accel-speed 0.3
         // accel-profile "flat"
         // scroll-method "two-finger"
-         disabled-on-external-mouse
+        //disabled-on-external-mouse
     }
 
     mouse {
@@ -168,12 +168,12 @@ layout {
     border {
         //off
 
-        width 4
+        width 2
 
         // Color of the border around windows that request your attention.
         active-color "#ff794f"
-	inactive-color "#ffffff"
-	urgent-color "#4a5353"
+	//inactive-color "#ffffff"
+	//urgent-color "#4a5353"
     }
 
     // You can enable drop shadows for windows.
@@ -186,11 +186,11 @@ layout {
         spread 3
 
         // Offset moves the shadow relative to the window.
-        offset x=5 y=5
+        offset x=5 y=7
 
         // You can also change the shadow color and opacity.
         //color "#dfddc780"
-	color "#000000"
+
     }
     struts {
         // left 64
@@ -206,18 +206,16 @@ layout {
 // See the binds section below for more spawn examples.
 
 // This line starts waybar, a commonly used bar for Wayland compositors.
-spawn-at-startup "/home/eli/.config/niri/random-wall.sh"
 spawn-at-startup "wl-paste" "--type" "text" "--watch" "cliphist" "store"
 spawn-at-startup "wl-paste" "--type" "image" "--watch" "cliphist" "store"
-spawn-at-startup "niri-float-sticky"
-spawn-at-startup "waybar"
-spawn-at-startup "swaybg" "-o" "*" "-i" "Pictures/Wallpapers/shimeji_tile.png" "-m" "tile"
+//spawn-at-startup "waybar"
+spawn-at-startup "swaybg" "-o" "*" "-i" "Pictures/walls/tiled/shimeji_tile.png" "-m" "tile"
 spawn-at-startup "xwayland-satellite"
-spawn-at-startup "kded6"
+spawn-at-startup "noctalia"
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
-spawn-sh-at-startup "brightnessctl set 100%"
+spawn-sh-at-startup "brightnessctl set 95%"
 spawn-at-startup "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
 //spawn-sh-at-startup "/home/eli/.config/niri/scripts/random-wall.sh"
 
@@ -256,6 +254,33 @@ layer-rule {
 layer-rule {
     match namespace="^waybar$"
 }
+
+layer-rule {
+    match namespace="^skwd-paper-backdrop$"
+    place-within-backdrop true
+}
+
+layer-rule {
+  match namespace="^noctalia-wallpaper"
+  place-within-backdrop true
+}
+
+layer-rule {
+    match namespace="noctalia-window-switcher"
+    background-effect {
+        //blur false
+        xray false
+    }
+}
+
+layer-rule {
+  match namespace="^noctalia-(bar-[^\"]+|notification|dock|panel|attached-panel|osd)$"
+  background-effect {
+    xray false
+    //blur false
+  }
+}
+
 
 // You can also set this to null to disable saving screenshots to disk.
 // screenshot-path null
@@ -297,8 +322,8 @@ window-rule {
 }
 
 window-rule {
-	match title="alacritty"
-	open-floating true
+    match app-id="^Alacritty$"
+    opacity 1.0
 }
 
 window-rule {
@@ -336,6 +361,14 @@ window-rule {
 	clip-to-geometry true
 }
 
+window-rule {
+  match app-id="dev.noctalia.Noctalia"
+  open-floating true
+  default-column-width { fixed 1080; }
+  default-window-height { fixed 920; }
+}
+
+
 binds {
 	// Keys consist of modifiers separated by + signs, followed by an XKB key name
 	// in the end. To find an XKB name for a particular key, you may use a program
@@ -352,13 +385,15 @@ binds {
 	Mod+N           { spawn-sh "/home/eli/.config/niri/scripts/random-wall.sh"; }
 	Mod+Shift+Z     { spawn "sh" "-c" "~/.config/niri/scripts/toggle-rotation.sh"; }
 	Mod+X           { spawn-sh "killall waybar && waybar &"; }
-	Mod+E           { spawn-sh "dolphin"; }
-	Mod+T	        { spawn-sh "kitty"; }
-	Mod+Alt+L       { spawn "swaylock"; }
+	Mod+E           { spawn-sh "nautilus"; }
+	Mod+L       { spawn "/home/eli/.local/share/quickshell-lockscreen/lock.sh"; }
 	Mod+Alt+C { spawn-sh "/home/eli/.config/niri/scripts/screen-record.sh"; }
-	Mod+Shift+N     { spawn-sh "/home/eli/.config/niri/scripts/wallpaper-selector.sh"; }
+	Mod+T     { spawn-sh "/home/eli/.config/niri/scripts/wallpaper-selector.sh"; }
+    Mod+Shift+T { spawn-sh "noctalia msg panel-toggle noctalia/wallhaven:browser"; }
 	Mod+Shift+V { spawn "sh" "-c" "rofi -modi clipboard:~/.config/rofi/cliphist-rofi-img -show clipboard -show-icons -config ~/.config/rofi/clipboard.rasi"; }
 	// Suggested binds for running programs: terminal, app launcher, screen locker.
+    Mod+Alt+Up { spawn "brightnessctl" "set" "10%+"; }
+    Mod+Alt+Down { spawn "brightnessctl" "set" "10%-"; }
 
 	//Mod+T hotkey-overlay-title="Open a Terminal: foot" { spawn "foot"; }
 	//Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
@@ -367,7 +402,7 @@ binds {
 	// Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
 	// Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
 	// For example, this is a standard bind to toggle the screen reader (orca).
-	Super+Alt+S allow-when-locked=true hotkey-overlay-title=null { spawn-sh "pkill orca || exec orca"; }
+	//Super+Alt+S allow-when-locked=true hotkey-overlay-title=null { spawn-sh "pkill orca || exec orca"; }
 
 	// Example volume keys mappings for PipeWire & WirePlumber.
 	// The allow-when-locked=true property makes them work even when the session is locked.
@@ -398,7 +433,7 @@ binds {
 	Mod+H     { focus-column-left; }
 	Mod+J     { focus-window-down; }
 	Mod+K     { focus-window-up; }
-	Mod+L     { focus-column-right; }
+	//Mod+L     { focus-column-right; }
 
 	Mod+Ctrl+Left  { move-column-left; }
 	Mod+Ctrl+Down  { move-window-down; }
@@ -617,3 +652,5 @@ binds {
     // moving the mouse or pressing any other key.
     Mod+Shift+P { power-off-monitors; }
 }
+
+include "noctalia.kdl"

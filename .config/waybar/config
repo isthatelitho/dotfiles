@@ -1,0 +1,127 @@
+// ──────────────────────────────────────────────────────────────────────────
+//  °˖* ૮(  • ᴗ ｡)っ🍸  pewdiepie/archdaemon/dionysh shhheersh
+//  Waybar config
+//  vers. 1.0.0
+// ──────────────────────────────────────────────────────────────────────────
+
+{
+  "layer": "top",
+  "position": "top",
+  "margin-top": 0,
+  "margin-bottom": 0,
+  "height": 29,
+
+  // ── Modules Layout ───────────────────────────────────────────────
+  "modules-left": [
+    "clock",
+    "custom/power",
+    "network",
+    "bluetooth",
+    "custom/microphone"
+  ],
+
+  "modules-center": [
+    "niri/workspaces"
+  ],
+
+  "modules-right": [
+    "custom/volume",
+    "custom/brightness"
+  ],
+
+  // ── Clock ────────────────────────────────────────────────────────
+  "clock": {
+    "tooltip-format": "{calendar}",
+    "format-alt": "  {:%a, %d %b %Y}",
+    "format": "[   {:%I:%M %p} ]"
+  },
+
+  // ── Network ──────────────────────────────────────────────────────
+  "network": {
+    "format-wifi": "{icon}",
+    "format-icons": ["[ 󰤯 ]", "[ 󰤟 ]", "[ 󰤢 ]", "[ 󰤥 ]", "[ 󰤨 ]"],
+    "format-ethernet": "󰀂",
+    "format-alt": "󱛇",
+    "format-disconnected": "󰖪",
+    "tooltip-format-wifi": "{icon} {essid}\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
+    "tooltip-format-ethernet": "󰀂  {ifname}\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
+    "tooltip-format-disconnected": "Disconnected",
+    "on-click": "nm-connection-editor",
+    "interval": 5,
+    "nospacing": 1
+  },
+
+  // ── Keyboard ─────────────────────────────────────────────────────
+  "keyboard-state": {
+    "numlock": true,
+    "capslock": true,
+    "format": " {layout}"
+  },
+
+  // ── Bluetooth ────────────────────────────────────────────────────
+  "bluetooth": {
+    "format": "{icon}",
+    "format-icons": {
+      "enabled": "[  ]",
+      "disabled": "[ 󰂲 ]"
+    },
+    "on-click": "~/.config/waybar/scripts/bluetooth-toggle.sh",
+    "tooltip-format": "Bluetooth is {status}",
+    "interval": 5
+  },
+
+
+
+  // ── Microphone ───────────────────────────────────────────────────
+  "custom/microphone": {
+    "exec": "~/.config/waybar/scripts/mic.sh",
+    "interval": 1,
+    "tooltip": true,
+    "tooltip-format": "Mic Toggle",
+    "on-click": "pactl set-source-mute @DEFAULT_SOURCE@ toggle"
+  },
+
+  // ── Brightness ───────────────────────────────────────────────────
+  "custom/brightness": {
+    "exec": "~/.config/waybar/scripts/brightness.sh",
+    "return-type": "json",
+    "interval": 2,
+    "on-click": "~/.config/waybar/scripts/brightness-toggle.sh",
+    "on-scroll-up": "brightnessctl set +5%",
+    "on-scroll-down": "brightnessctl set 5%-"
+  },
+
+  "backlight": {
+    "format": "󰛨  {percent}%",
+    "format-icons": ["󰃞","󰃟","󰃠","󰃝","󰃜","󰃛"],
+    "class": "flicker-bar",
+    "on-click": "~/.config/waybar/scripts/brightness-slider.sh"
+  },
+
+  // ── Volume ───────────────────────────────────────────────────────
+  "custom/volume": {
+    "exec": "~/.config/waybar/scripts/volume.sh",
+    "return-type": "json",
+    "interval": 1,
+    "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+    "on-scroll-up": "wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+",
+    "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+  },
+
+
+
+  // ── Power ────────────────────────────────────────────────────────
+  "custom/power": {
+    "format": "[ 󰤆 ]",
+    "tooltip": true,
+    "tooltip-format": "Power Menu",
+    "on-click": "~/.config/waybar/scripts/powermenu.sh"
+  },
+
+  // ── Spacer ───────────────────────────────────────────────────────
+  "custom/squares": {
+    "format": " ",
+    "tooltip": false
+  }
+}
+

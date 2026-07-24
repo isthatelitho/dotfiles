@@ -1,94 +1,95 @@
 @import url("colors.css");
 
-/* ===================================================== */
-/* GLOBAL                                                */
-/* ===================================================== */
+/* ──────────────────────────────────────────────────────────────────────────
+   °˖* ૮(  • ᴗ ｡)っ🍸  pewdiepie/archdaemon/dionysh  shhheersh
+   Waybar CSS styling
+   ────────────────────────────────────────────────────────────────────────── */
 
-* {
-  background-color: alpha(@background, 0.9);
-  color: @foreground;
-
+waybar * {
   border: none;
-  border-radius: 0;
-  border: 0px solid alpha(@foreground, 0.6);
-
+  border-radius: 0px;
   min-height: 0;
-
-  font-family: 'Mononoki Nerd Font';
-  font-size: 18px;
-
+  font-family: "JetBrainsMono Nerd Font";
+  font-size: 14px;
 }
 
-/* ===================================================== */
-/* LAYOUT SPACING                                        */
-/* ===================================================== */
-
-.modules-left {
-  margin-left: 8px;
+#waybar {
+  background-color: transparent;
 }
 
-.modules-right {
-  margin-right: 10px;
+window#waybar {
+  background: transparent;
+  transition-property: background-color;
+  transition-duration: 0.5s;
+  color: @text;
 }
 
-
-/* ===================================================== */
-/* RIGHT SIDE MODULES                                     */
-/* ===================================================== */
-
-#pulseaudio {
-  margin-left: 1px;
-  margin-right: 9px;
+#workspaces {
+  background-color: transparent;
+  padding-left: 40px;
+  border-radius: 0px;
 }
-
-#clock {
-  margin-left: -10px;
-}
-
-#custom-uptime {
-  margin-right: 10px;
-}
-
-/* ===================================================== */
-/* LEFT SIDE MODULES                                      */
-/* ===================================================== */
 
 #workspaces button {
   all: initial;
-  transition: all 90ms ease-in-out;
-  padding: 0 6px;
-  margin-left: 0px;
-  min-width: 2px;
+  min-width: 0;
+  box-shadow: inherit;
+  padding: 6px 6px;
+  margin: 6px 3px;
+  border-radius: 0px;
+  background-color: @surface0;
+  color: @blue;
 }
 
+#workspaces button.focused,
 #workspaces button.active {
-  border-top: 1px solid @foreground;
-  margin-bottom: 2px;
-  animation: pulse 1.6s ease-in-out infinite;
+  color: @peach;
+  background-color: @blue;
 }
 
-@keyframes pulse {
-  0%   { text-shadow: 0 0 2px alpha(@foreground, 0.3); }
-  50%  { text-shadow: 0 0 8px alpha(@foreground, 0.9); }
-  100% { text-shadow: 0 0 2px alpha(@foreground, 0.3); }
+#workspaces button.urgent {
+  color: @base;
+  background-color: @red;
 }
 
 #workspaces button.empty {
-  opacity: 0.5;
+  color: @overlay0;
 }
 
-
-#custom-arrow {
-  margin-left: 6px;
-  margin-right: 10px;
+#workspaces button:hover {
+  color: @surface0;
+  background-color: @blue;
 }
 
-#custom-sep {
-  margin: 0 4px;
+#custom-brightness,
+#custom-volume,
+#clock {
+  padding: 6px 12px;
+  margin: 6px 6px;
+  background-color: @base;
+  border-radius: 2px;
 }
 
-#custom-secbar {
-  margin-left: 6px;
-  margin-right: 12px;
+#clock {
+  font-weight: bold;
+  font-size: 12px;
+  color: @peach;
 }
 
+#custom-volume:hover,
+#custom-brightness:hover,
+#clock:hover {
+  background-color: @overlay0;
+  color: @blue;
+  transition: all 0.2s ease-in-out;
+}
+
+tooltip {
+  color: @blue;
+  background-color: @surface1;
+  font-weight: bold;
+}
+
+tooltip label {
+  color: @subtext;
+}

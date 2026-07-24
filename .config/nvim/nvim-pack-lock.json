@@ -8,6 +8,10 @@
       "rev": "7b9923abad60b903ece7c52940e1321d39eccc79",
       "src": "https://github.com/windwp/nvim-autopairs"
     },
+    "nvim-rusticated": {
+      "rev": "93e35f67b11857736c9af8b353867daf7e4a3abc",
+      "src": "https://github.com/d00h/nvim-rusticated"
+    },
     "nvim-tree.lua": {
       "rev": "35d3511e7ad4cbfa44c78c406db663b6e2a07c0d",
       "src": "https://github.com/nvim-tree/nvim-tree.lua"
