@@ -1,4 +1,6 @@
-
+blur {
+    on
+}
 environment {
     QT_QPA_PLATFORMTHEME "qt5ct"
     QT_QPA_PLATFORM "wayland"
@@ -209,7 +211,7 @@ layout {
 spawn-at-startup "wl-paste" "--type" "text" "--watch" "cliphist" "store"
 spawn-at-startup "wl-paste" "--type" "image" "--watch" "cliphist" "store"
 //spawn-at-startup "waybar"
-spawn-at-startup "swaybg" "-o" "*" "-i" "Pictures/walls/tiled/shimeji_tile.png" "-m" "tile"
+//spawn-at-startup "swaybg" "-o" "*" "-i" "Pictures/walls/tiled/shimeji_tile.png" "-m" "tile"
 spawn-at-startup "xwayland-satellite"
 spawn-at-startup "noctalia"
 
@@ -323,7 +325,33 @@ window-rule {
 
 window-rule {
     match app-id="^Alacritty$"
-    opacity 1.0
+    background-effect {
+        blur true
+    }
+}
+
+window-rule {
+    match app-id="^vesktop$"
+    //opacity 0.85
+    background-effect {
+        //blur true
+    }
+}
+
+window-rule {
+    match app-id="^helium$"
+    opacity 0.8
+    background-effect {
+        blur true
+    }
+}
+
+window-rule {
+    match app-id="^nsxiv$"
+    opacity 0.8
+    background-effect {
+        blur true
+    }
 }
 
 window-rule {
@@ -386,14 +414,17 @@ binds {
 	Mod+Shift+Z     { spawn "sh" "-c" "~/.config/niri/scripts/toggle-rotation.sh"; }
 	Mod+X           { spawn-sh "killall waybar && waybar &"; }
 	Mod+E           { spawn-sh "nautilus"; }
-	Mod+L       { spawn "/home/eli/.local/share/quickshell-lockscreen/lock.sh"; }
-	Mod+Alt+C { spawn-sh "/home/eli/.config/niri/scripts/screen-record.sh"; }
-	Mod+T     { spawn-sh "/home/eli/.config/niri/scripts/wallpaper-selector.sh"; }
-    Mod+Shift+T { spawn-sh "noctalia msg panel-toggle noctalia/wallhaven:browser"; }
-	Mod+Shift+V { spawn "sh" "-c" "rofi -modi clipboard:~/.config/rofi/cliphist-rofi-img -show clipboard -show-icons -config ~/.config/rofi/clipboard.rasi"; }
+	Mod+L           { spawn "/home/eli/.local/share/quickshell-lockscreen/lock.sh"; }
+	Mod+Alt+C       { spawn-sh "/home/eli/.config/niri/scripts/screen-record.sh"; }
+	//Mod+T         { spawn-sh "/home/eli/.config/niri/scripts/wallpaper-selector.sh"; }
+    Mod+T           { spawn-sh "quickshell --config ~/.config/quickshell/wallpaper-switcher"; }
+    Mod+Shift+T     { spawn-sh "noctalia msg panel-toggle noctalia/wallhaven:browser"; }
+    Mod+Shift+N     { spawn-sh "noctalia msg panel-toggle noctalia/mpvpaper:picker"; }
+	Mod+Shift+V     { spawn "sh" "-c" "rofi -modi clipboard:~/.config/rofi/cliphist-rofi-img -show clipboard -show-icons -config ~/.config/rofi/clipboard.rasi"; }
 	// Suggested binds for running programs: terminal, app launcher, screen locker.
-    Mod+Alt+Up { spawn "brightnessctl" "set" "10%+"; }
-    Mod+Alt+Down { spawn "brightnessctl" "set" "10%-"; }
+    Mod+Alt+Up      { spawn "brightnessctl" "set" "10%+"; }
+    Mod+Alt+Down    { spawn "brightnessctl" "set" "10%-"; }
+    Alt+Tab         { spawn-sh "noctalia msg window-switcher"; }
 
 	//Mod+T hotkey-overlay-title="Open a Terminal: foot" { spawn "foot"; }
 	//Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }

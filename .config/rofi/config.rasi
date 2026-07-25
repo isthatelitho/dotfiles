@@ -1,0 +1,83 @@
+@theme "/home/eli/.config/rofi/noctalia.rasi"
+
+* {
+  font: "Iosevka Nerd Font Medium 11";
+  margin: 0;
+  padding: 0;
+  spacing: 0;
+  border-radius: 0;
+}
+
+element-icon, element-text, scrollbar {
+  cursor: pointer;
+}
+
+window {
+  location: northwest;
+  width: 280px;
+  x-offset: 4px;
+  y-offset: 26px;
+  border: 1px;
+  border-radius: 0;
+}
+
+inputbar {
+  spacing: 8px;
+  padding: 12px 16px;
+  children: [ icon-search, entry ];
+  border: 0 0 1px 0;
+}
+
+icon-search, entry, element-icon, element-text {
+  vertical-align: 0.5;
+}
+
+icon-search {
+  expand: false;
+  filename: "search-symbolic";
+  size: 14px;
+  background-color: transparent;
+  border: 0;
+  text-color: inherit; /* Forces the symbolic icon to match your foreground text color */
+}
+
+entry {
+  placeholder: "Search...";
+  placeholder-color: inherit;
+}
+
+textbox {
+  padding: 8px 16px;
+}
+
+listview {
+  padding: 8px 0px;
+  lines: 10;
+  columns: 1;
+  scrollbar: true;
+  fixed-height: false;
+  dynamic: true;
+}
+
+element {
+  padding: 8px 16px;
+  spacing: 12px;
+  border-radius: 0; /* Explicitly targets the base list item */
+}
+
+element selected {
+  border-radius: 0; /* Overrides noctalia.rasi's specific hover/selected rules */
+}
+
+element-icon {
+  size: 1em;
+}
+
+element-text {
+  text-color: inherit;
+}
+
+scrollbar {
+  handle-width: 2px;
+  padding: 0;
+}

@@ -17,16 +17,8 @@ TILED_SUBDIR="tiled"
 
 # animated wallpaper (mpvpaper) config
 MPVPAPER_OUTPUT="eDP-1"
-# hwdec: use the GPU decoder instead of CPU software decoding (biggest single win)
-# vo=gpu + bilinear scalers: cheap scaling instead of mpv's higher-quality (costlier) defaults
-# framedrop=vo: let mpv drop frames instead of fighting to catch up
-# interpolation=no: motion interpolation is pure overhead for a static-position wallpaper
-# panscan=1.0: crop-to-fill instead of letterboxing, avoids extra compositing work
 MPVPAPER_OPTS="no-audio loop hwdec=auto-safe vo=gpu scale=bilinear cscale=bilinear dscale=bilinear interpolation=no framedrop=vo panscan=1.0"
-# optional hard fps cap for high-framerate source clips, e.g. "30". Empty = no cap.
 MPVPAPER_FPS_CAP="24"
-# -p/--auto-pause: mpvpaper stops rendering when the wallpaper is fully hidden
-# (e.g. a fullscreen window on top) - real CPU/GPU savings for free
 MPVPAPER_FLAGS="-p"
 VIDEO_EXTS=(mp4 mkv webm mov m4v)
 
@@ -114,7 +106,6 @@ apply_noctalia_colors() {
 
     local color_source="$wallpaper"
     if is_video "$wallpaper"; then
-        # noctalia also needs a static image; reuse the already-generated thumbnail
         local thumb="${THUMB_PATH[$wallpaper]:-}"
         [[ -n "$thumb" && -f "$thumb" ]] || return 0
         color_source="$thumb"
@@ -134,7 +125,6 @@ set_wallpaper() {
 
         pkill swaybg 2>/dev/null || true
         pkill mpvpaper 2>/dev/null || true
-        # give the old layer-shell surface a moment to release before attaching a new one
         sleep 0.15
 
         local mpv_opts="$MPVPAPER_OPTS"
@@ -158,6 +148,35 @@ set_wallpaper() {
 }
 
 main() {
+    # DIRECT FILE SELECTION HANDLER FOR QUICKSHELL / EXTERNAL CALLS
+    if [[ $# -gt 0 && -n "${1:-}" ]]; then
+        # Surface any failure instead of dying silently under `set -e` when
+        # invoked non-interactively (e.g. detached from Quickshell).
+        trap 'notify-send "Wallpaper Selector" "Failed to apply wallpaper (line $LINENO)"; exit 1' ERR
+
+        # Resolve symlinks / relative paths so the -f check and downstream
+        # tools all agree on the same real path.
+        local target
+        target=$(readlink -f -- "$1" 2>/dev/null || printf '%s' "$1")
+
+        if [[ -f "$target" ]]; then
+            command -v mpvpaper >/dev/null && HAVE_MPVPAPER=1
+            command -v ffmpeg >/dev/null && HAVE_FFMPEG=1
+            command -v noctalia >/dev/null && HAVE_NOCTALIA=1
+
+            if ! is_video "$target" && ! command -v swaybg >/dev/null; then
+                notify-send "Wallpaper Selector" "Error: swaybg not found"
+                exit 1
+            fi
+
+            set_wallpaper "$target"
+            exit 0
+        else
+            notify-send "Wallpaper Selector" "Error: file not found: $1"
+            exit 1
+        fi
+    fi
+
     for cmd in magick rofi swaybg python3; do
         command -v "$cmd" >/dev/null || {
             notify-send "Wallpaper Selector" "Error: $cmd not found"
@@ -177,7 +196,6 @@ main() {
         -o -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.webm" -o -iname "*.mov" -o -iname "*.m4v" \) | sort)
 
     if ((! HAVE_MPVPAPER)); then
-        # no mpvpaper on this system: silently drop video files from the list
         local filtered=()
         local w
         for w in "${WALLPAPERS[@]}"; do
@@ -207,31 +225,64 @@ main() {
     done
     wait
 
-    local entries=()
+    local tiled_prefix="$WALLPAPER_DIR/$TILED_SUBDIR/"
+    local normal_list=() tiled_list=()
     for img in "${WALLPAPERS[@]}"; do
-        local base
-        base=$(basename "$img")
-        local thumb="${THUMB_PATH[$img]}"
-
-        if [[ "$img" == "$current_wallpaper" ]]; then
-            entries+=("● ${base}\x00icon\x1f${thumb}")
+        if [[ "$img" == "$tiled_prefix"* ]]; then
+            tiled_list+=("$img")
         else
-            entries+=("${base}\x00icon\x1f${thumb}")
+            normal_list+=("$img")
         fi
     done
 
-    if [[ -f "$ROFI_THEME" ]]; then
-        SELECTED_NAME=$(printf "%b\n" "${entries[@]}" | rofi -dmenu -show-icons -i -p "Select Wallpaper" -theme "$ROFI_THEME") || exit 0
-    else
-        SELECTED_NAME=$(printf "%b\n" "${entries[@]}" | rofi -dmenu -show-icons -i -p "Select Wallpaper" \
-            -theme-str 'window {width: 60%; height: 70%;}' \
-            -theme-str 'listview {columns: 3; lines: 4;}' \
-            -theme-str 'element {padding: 5px; orientation: vertical;}' \
-            -theme-str 'element-icon {size: 10em;}') || exit 0
-    fi
+    local view="normal"
+    [[ -n "$current_wallpaper" && "$current_wallpaper" == "$tiled_prefix"* ]] && view="tiled"
 
-    SELECTED_NAME="${SELECTED_NAME#● }"
-    SELECTED=$(printf "%s\n" "${WALLPAPERS[@]}" | grep -F "/$SELECTED_NAME" | head -n1)
+    local SELECTED="" rc=0
+    while true; do
+        local -n view_list="${view}_list"
+
+        local entries=()
+        for img in "${view_list[@]}"; do
+            local base thumb
+            base=$(basename "$img")
+            thumb="${THUMB_PATH[$img]}"
+
+            if [[ "$img" == "$current_wallpaper" ]]; then
+                entries+=("● ${base}\x00icon\x1f${thumb}")
+            else
+                entries+=("${base}\x00icon\x1f${thumb}")
+            fi
+        done
+        [[ ${#entries[@]} -eq 0 ]] && entries+=("(none in this tab)")
+
+        local other_view="tiled"
+        [[ "$view" == "tiled" ]] && other_view="normal"
+        local prompt="Wallpaper: ${view} (Alt+T → ${other_view})"
+
+        if [[ -f "$ROFI_THEME" ]]; then
+            SELECTED_NAME=$(printf "%b\n" "${entries[@]}" | rofi -dmenu -show-icons -i -p "$prompt" \
+                -kb-custom-1 "Alt+t" -theme "$ROFI_THEME") && rc=0 || rc=$?
+        else
+            SELECTED_NAME=$(printf "%b\n" "${entries[@]}" | rofi -dmenu -show-icons -i -p "$prompt" \
+                -kb-custom-1 "Alt+t" \
+                -theme-str 'window {width: 60%; height: 70%;}' \
+                -theme-str 'listview {columns: 3; lines: 4;}' \
+                -theme-str 'element {padding: 5px; orientation: vertical;}' \
+                -theme-str 'element-icon {size: 10em;}') && rc=0 || rc=$?
+        fi
+
+        if ((rc == 10)); then
+            view="$other_view"
+            continue
+        elif ((rc != 0)); then
+            exit 0
+        fi
+
+        SELECTED_NAME="${SELECTED_NAME#● }"
+        SELECTED=$(printf "%s\n" "${view_list[@]}" | grep -F "/$SELECTED_NAME" | head -n1)
+        break
+    done
 
     [[ -z "$SELECTED" ]] && { notify-send "Wallpaper Selector" "Error: Could not find selected wallpaper"; exit 1; }
 

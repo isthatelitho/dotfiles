@@ -3,42 +3,65 @@
 configuration {
     show-icons: true;
     disable-history: false;
+    hover-select: true;
+    me-select-entry: "";
+    me-accept-entry: "MousePrimary";
 }
 
 * {
-    font: "uzura_font 9";
+    font: "JetBrainsMono Nerd Font 9";
     background-color: transparent;
-    text-color: @foreground;
+    text-color: #eaf6ff;
     margin: 0px;
     padding: 0px;
     spacing: 0px;
-    border: 0px;
-    border-color: transparent;
 }
 
 window {
     fullscreen: true;
-    background-color: #000000cc;
+    background-color: #0d1b2af2;
     transparency: "real";
 }
 
 mainbox {
     background-color: transparent;
-    children: [ listview ];
-    padding: 6% 5% 6% 5%;
+    children: [ inputbar, listview ];
+    padding: 4% 5%;
+    spacing: 16px;
 }
 
 inputbar {
-    enabled: false;
+    enabled: true;
+    background-color: #1b263bbf;
+    border-radius: 0px;
+    border: 1px solid;
+    border-color: #7fc9ff4d;
+    padding: 10px 16px;
+    children: [ prompt, entry ];
+    spacing: 10px;
+}
+
+prompt {
+    background-color: transparent;
+    text-color: #7fc9ff;
+    font: "JetBrainsMono Nerd Font Bold 10";
+    str: "󰸉 SELECT WALLPAPER:";
+}
+
+entry {
+    background-color: transparent;
+    text-color: #eaf6ff;
+    placeholder: "Search...";
+    placeholder-color: #eaf6ff66;
 }
 
 listview {
-    orientation: horizontal;
+    orientation: vertical;
     flow: horizontal;
-    columns: 6;
+    columns: 8;
     lines: 4;
-    spacing: 10px;
-    cycle: false;
+    spacing: 12px;
+    cycle: true;
     scrollbar: false;
     fixed-height: true;
     background-color: transparent;
@@ -46,29 +69,38 @@ listview {
 
 element {
     orientation: vertical;
-    padding: 5px;
-    border-radius: 10px;
-    background-color: #1a1a1a40;
+    padding: 6px;
+    border-radius: 0px;
+    background-color: #ffffff0d;
+    border: 1px solid;
+    border-color: #7fc9ff26;
+    children: [ element-icon, element-text ];
+    spacing: 6px;
 }
 
-element normal {
-    background-color: #1a1a1a40;
+element normal.normal, element alternate.normal {
+    background-color: #ffffff0d;
+    border-color: #7fc9ff26;
 }
 
-element.selected {
-    background-color: #ffffff14;
+element selected.normal {
+    background-color: #7fc9ff33;
     border: 2px solid;
-    border-color: @foreground;
-    border-radius: 10px;
+    border-color: #7fc9ff;
+    border-radius: 0px;
 }
 
 element-icon {
-    size: 150px 150px;
-    border-radius: 8px;
+    size: 110px;
     horizontal-align: 0.5;
     vertical-align: 0.5;
+    border-radius: 0px;
 }
 
 element-text {
-    enabled: false;
+    enabled: true;
+    horizontal-align: 0.5;
+    vertical-align: 0.5;
+    text-color: inherit;
+    font: "JetBrainsMono Nerd Font 8";
 }

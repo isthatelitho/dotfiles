@@ -1,0 +1,85 @@
+@import "~/.cache/wal/colors-rofi-dark"
+
+configuration {
+    show-icons: true;
+    matching: "fuzzy";
+    display-drun: "Clipboard:";
+}
+
+* {
+    font: "uzura_font 14";
+    background-color: transparent;
+    text-color: @foreground;
+    margin: 0px;
+    padding: 0px;
+    spacing: 0px;
+}
+
+window {
+    location: center;
+    width: 800;
+    border-radius: 0px;
+    background-color: @background;
+}
+
+mainbox {
+    padding: 8px;
+    background-color: @background;
+    children: [ inputbar, listview ];
+}
+
+inputbar {
+    background-color: @normal-background;
+    border-radius: 0px;
+    padding: 10px 12px;
+    spacing: 8px;
+    children: [ prompt, entry ];
+    margin: 0px 0px 8px 0px;
+}
+
+prompt {
+    text-color: @foreground;
+    background-color: transparent;
+}
+
+entry {
+    placeholder: "Search clipboard...";
+    placeholder-color: @urgent-background;
+    text-color: @foreground;
+    background-color: transparent;
+}
+
+listview {
+    background-color: transparent;
+    margin: 0px;
+    columns: 1;
+    lines: 6;
+    spacing: 4px;
+    fixed-height: true;
+}
+
+element {
+    padding: 8px 12px;
+    border-radius: 0px;
+    background-color: transparent;
+}
+
+element normal.normal {
+    background-color: transparent;
+    text-color: @foreground;
+}
+
+element selected.normal {
+    background-color: @selected-normal-background;
+    text-color: @background;
+}
+
+element-text {
+    text-color: inherit;
+    background-color: transparent;
+    vertical-align: 0.5;
+}
+element-icon {
+    size: 96px;
+    background-color: transparent;
+}

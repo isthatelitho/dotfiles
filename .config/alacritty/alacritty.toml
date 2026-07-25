@@ -9,3 +9,6 @@ italic = { family = "Mononoki Nerd Font", style = "Italic" }
 bold_italic = { family = "mononoki", style = "Bold Italic" }
 
 size = 13.0
+
+[window]
+opacity = 0.85
